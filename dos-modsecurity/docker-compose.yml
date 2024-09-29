@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  httpd:
+    image: httpd-modsecurity
+    container_name: apache_server
+    ports:
+      - "80:80"
+    volumes:
+      - ./volumes/conf/:/usr/local/apache2/conf/
+      - ./volumes/htdocs/:/usr/local/apache2/htdocs/
+      - ./volumes/modsecurity/:/opt/modsecurity/
+

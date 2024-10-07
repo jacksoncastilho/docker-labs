@@ -2,12 +2,18 @@ version: '3.8'
 
 services:
   httpd:
-    image: httpd-modsecurity
-    container_name: httpd-server
+    image: httpd-modsecurity  # Custom image with Apache and ModSecurity
+    container_name: httpd-server  # Name of the container
     ports:
-      - "80:80"
+      - "80:80"  # Expose port 80 for HTTP traffic
     volumes:
-      - ./volumes/conf/:/usr/local/apache2/conf/
-      - ./volumes/htdocs/:/usr/local/apache2/htdocs/
-      - ./volumes/modsecurity/etc/:/opt/modsecurity/etc/
+      - ./volumes/conf/:/usr/local/apache2/conf/  # Mount local Apache configuration directory
+      - ./volumes/htdocs/:/usr/local/apache2/htdocs/  # Mount local web root for serving content
+      - ./volumes/modsecurity/etc/:/opt/modsecurity/etc/  # Mount ModSecurity configuration directory
+    networks:
+      - webnet  # Define a custom network (optional)
+    restart: unless-stopped  # Ensure the container restarts automatically unless explicitly stopped
 
+networks:
+  webnet:
+    driver: bridge  # Use bridge networking for service isolation
